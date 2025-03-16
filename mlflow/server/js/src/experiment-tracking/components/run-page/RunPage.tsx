@@ -220,6 +220,7 @@ export const RunPage = () => {
           runTags={tags}
           runParams={params}
           runUuid={runUuid}
+          lifecycleStage={runInfo.lifecycleStage ?? undefined}
           artifactRootUri={runInfo?.artifactUri ?? undefined}
           registeredModelVersionSummaries={registeredModelVersionSummaries}
           isLoading={loading || isLoadingLoggedModels}

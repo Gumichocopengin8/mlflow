@@ -2,9 +2,8 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from '../../../common/utils/RoutingUtils';
 import { OverflowMenu, PageHeader } from '../../../shared/building_blocks/PageHeader';
 import Routes from '../../routes';
-import type { ExperimentEntity, KeyValueEntity } from '../../types';
+import type { ExperimentEntity, KeyValueEntity, RunInfoEntity } from '../../types';
 import { RunViewModeSwitch } from './RunViewModeSwitch';
-import Utils from '../../../common/utils/Utils';
 import { RunViewHeaderRegisterModelButton } from './RunViewHeaderRegisterModelButton';
 import type { UseGetRunQueryResponseExperiment } from './hooks/useGetRunQuery';
 import type { RunPageModelVersionSummary } from './hooks/useUnifiedRegisteredModelVersionsSummariesForRun';
@@ -20,6 +19,7 @@ export const RunViewHeader = ({
   runTags,
   runParams,
   runUuid,
+  lifecycleStage,
   handleRenameRunClick,
   handleDeleteRunClick,
   artifactRootUri,
@@ -37,6 +37,7 @@ export const RunViewHeader = ({
   handleDeleteRunClick?: () => void;
   artifactRootUri?: string;
   registeredModelVersionSummaries: RunPageModelVersionSummary[];
+  lifecycleStage?: RunInfoEntity['lifecycleStage'];
   isLoading?: boolean;
 }) => {
   function getExperimentPageLink() {
@@ -88,7 +89,7 @@ export const RunViewHeader = ({
                 <FormattedMessage defaultMessage="Rename" description="Menu item to rename an experiment run" />
               ),
             },
-            ...(handleDeleteRunClick
+            ...(handleDeleteRunClick && lifecycleStage && lifecycleStage !== 'deleted'
               ? [
                   {
                     id: 'overflow-delete-button',
